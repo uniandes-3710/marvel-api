@@ -11,6 +11,7 @@ import {
 } from 'class-validator';
 import { CharacterStatus } from '../enums/character-status.enum.js';
 
+// @MaxLength replica el tamaño de las columnas VARCHAR de la tabla.
 export class CreateCharacterDto {
   @IsString()
   @IsNotEmpty()
@@ -27,18 +28,18 @@ export class CreateCharacterDto {
   @MaxLength(150)
   main_power: string;
 
+  // Regla 3 del enunciado: power_level entre 1 y 100...
   @IsInt()
   @Min(1)
   @Max(100)
   power_level: number;
 
-  @IsOptional()
+  // ...y status debe ser uno de los valores de CharacterStatus.
   @IsEnum(CharacterStatus)
-  status?: CharacterStatus;
+  status: CharacterStatus;
 
-  @IsOptional()
   @IsBoolean()
-  is_villain?: boolean;
+  is_villain: boolean;
 
   @IsOptional()
   @IsInt()
