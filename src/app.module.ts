@@ -8,6 +8,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PlanetModule } from './planet/planet.module.js';
 import { LoggerMiddleware } from './common/logger/logger.middleware.js';
 import { CharactersController } from './characters/characters.controller.js';
+import { UsersModule } from './users/users.module.js';
+import { AuthModule } from './auth/auth.module.js';
 
 @Module({
   imports: [
@@ -22,13 +24,15 @@ import { CharactersController } from './characters/characters.controller.js';
         password: config.get('DB_PASSWORD'),
         database: config.get('DB_NAME'),
         autoLoadEntities: true,
-        synchronize: false, // solo en desarrollo
+        synchronize: true, // solo en desarrollo
         logging: true,
       }),
     }),
     TeamModule,
     CharactersModule,
     PlanetModule,
+    UsersModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
@@ -36,6 +40,6 @@ import { CharactersController } from './characters/characters.controller.js';
 // export class AppModule {}
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggerMiddleware).forRoutes(CharactersController);
+    consumer.apply(LoggerMiddleware).forRoutes('*');
   }
 }
