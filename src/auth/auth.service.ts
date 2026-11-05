@@ -10,10 +10,14 @@ import {
   ResponseAuthCredentialsDto,
 } from './dto/credentials.dto.js';
 import bcrypt from 'bcryptjs';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly jwtService: JwtService,
+  ) {}
 
   async register(user: RegisterCredentialsDto) {
     if (await this.usersService.findOneByEmail(user.email)) {
@@ -37,6 +41,8 @@ export class AuthService {
     if (!isPasswordValid) {
       throw new UnauthorizedException('Invalid email or password');
     }
-    return ResponseAuthCredentialsDto.from(existingUser);
+    return {
+      accessToken: await this.jwtService.signAsync({ userId: existingUser.id }),
+    };
   }
 }

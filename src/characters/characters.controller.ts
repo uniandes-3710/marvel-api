@@ -17,6 +17,7 @@ import { UpdateCharacterDto } from './dto/update-character.dto.js';
 import { UpdateStatusDto } from './dto/update-status.dto.js';
 import { CharacterResponseDto } from './dto/character-response.dto.js';
 import { CharacterStatus } from './enums/character-status.enum.js';
+import { Public } from '../auth/decorators.js';
 
 @Controller('characters')
 export class CharactersController {
@@ -30,6 +31,7 @@ export class CharactersController {
   }
 
   @Get()
+  @Public()
   async findAll(
     @Query('status', new ParseEnumPipe(CharacterStatus, { optional: true }))
     status?: CharacterStatus,
