@@ -1,5 +1,4 @@
-// Al agregar Swagger, importar desde '@nestjs/swagger'
-import { PickType } from '@nestjs/mapped-types';
+import { PickType } from '@nestjs/swagger';
 import { CreateCharacterDto } from './create-character.dto.js';
 
 // El PATCH de estado usa su propio DTO: solo acepta status.

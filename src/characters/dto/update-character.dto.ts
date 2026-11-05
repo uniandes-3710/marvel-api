@@ -1,5 +1,4 @@
-// Al agregar Swagger, importar desde '@nestjs/swagger'
-import { OmitType } from '@nestjs/mapped-types';
+import { OmitType } from '@nestjs/swagger';
 import { IsInt, Min, ValidateIf } from 'class-validator';
 import { CreateCharacterDto } from './create-character.dto.js';
 

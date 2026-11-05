@@ -46,7 +46,7 @@ export class TeamService {
       }
       return saved;
     });
-    return this.findOneWithCharacters(team.id);
+    return this.findOne(team.id);
   }
 
   findAll() {
@@ -87,7 +87,7 @@ export class TeamService {
 
     // Los personajes que ya pertenecen a otro equipo se reasignan a este.
     await this.charactersRepo.update({ id: In(characterIds) }, { team_id: id });
-    return this.findOneWithCharacters(id);
+    return team;
   }
 
   // Regla 6: un equipo con personajes no se elimina; se desactiva con PUT.
@@ -100,18 +100,6 @@ export class TeamService {
       );
     }
     await this.teamsRepo.delete(id);
-  }
-
-  private async findOneWithCharacters(id: number) {
-    const team = await this.teamsRepo.findOne({
-      where: { id },
-      relations: { characters: true },
-      order: { characters: { id: 'ASC' } },
-    });
-    if (!team) {
-      throw new NotFoundException(`El equipo con id ${id} no existe`);
-    }
-    return team;
   }
 
   private async ensureNameAvailable(name: string, excludeId?: number) {

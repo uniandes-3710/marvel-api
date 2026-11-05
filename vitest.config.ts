@@ -8,5 +8,13 @@ export default defineConfig({
     globals: true,
     root: './',
     include: ['**/*.spec.ts'],
+    coverage: {
+      exclude: [
+        '**/*.module.ts', // configuración de Nest
+        '**/dto/**', // sus decoradores los ejecuta el ValidationPipe (pruebas e2e)
+        '**/entities/**', // sus decoradores los ejecuta TypeORM al conectarse
+        'src/main.ts', // arranque de la aplicación
+      ],
+    },
   },
 });

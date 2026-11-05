@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { CharactersModule } from './characters/characters.module.js';
@@ -6,6 +6,8 @@ import { TeamModule } from './team/team.module.js';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PlanetModule } from './planet/planet.module.js';
+import { LoggerMiddleware } from './common/logger/logger.middleware.js';
+import { CharactersController } from './characters/characters.controller.js';
 
 @Module({
   imports: [
@@ -31,4 +33,9 @@ import { PlanetModule } from './planet/planet.module.js';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+// export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes(CharactersController);
+  }
+}
