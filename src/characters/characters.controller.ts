@@ -17,13 +17,15 @@ import { UpdateCharacterDto } from './dto/update-character.dto.js';
 import { UpdateStatusDto } from './dto/update-status.dto.js';
 import { CharacterResponseDto } from './dto/character-response.dto.js';
 import { CharacterStatus } from './enums/character-status.enum.js';
-import { Public } from '../auth/decorators.js';
+import { Public, Roles } from '../auth/decorators.js';
+import { Role } from '../users/entities/role.enum.js';
 
 @Controller('characters')
 export class CharactersController {
   constructor(private readonly charactersService: CharactersService) {}
 
   @Post()
+  @Roles([Role.ADMIN])
   async create(@Body() createCharacterDto: CreateCharacterDto) {
     return CharacterResponseDto.from(
       await this.charactersService.create(createCharacterDto),

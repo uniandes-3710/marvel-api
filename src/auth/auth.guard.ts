@@ -7,9 +7,10 @@ import {
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { IS_PUBLIC_KEY } from './decorators.js';
-import type { Request } from 'express';
+import { Request } from 'express';
+import { Role } from '../users/entities/role.enum.js';
 
-export type JwtPayload = { sub: number };
+export type JwtPayload = { sub: number; role: Role };
 
 @Injectable()
 export class AuthGuard implements CanActivate {

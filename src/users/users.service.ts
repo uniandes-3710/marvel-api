@@ -23,7 +23,13 @@ export class UsersService {
   async login(email: string) {
     const user = await this.userRepo.findOne({
       where: { email },
-      select: { email: true, userName: true, password: true, id: true },
+      select: {
+        email: true,
+        userName: true,
+        password: true,
+        id: true,
+        role: true,
+      },
     });
     if (!user) {
       throw new Error('Invalid email or password');

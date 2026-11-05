@@ -42,7 +42,10 @@ export class AuthService {
       throw new UnauthorizedException('Invalid email or password');
     }
     return {
-      accessToken: await this.jwtService.signAsync({ sub: existingUser.id }),
+      accessToken: await this.jwtService.signAsync({
+        sub: existingUser.id,
+        role: existingUser.role,
+      }),
     };
   }
 }
